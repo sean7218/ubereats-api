@@ -72,6 +72,10 @@ typings/
 # Serverless directories
 .serverless
 
-#build files
+# build files
 build/
+
+# config file
+config/config_dev.js
+config/config_local.js
 
