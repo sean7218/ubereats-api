@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 var models = require('../models');
 var bodyParser = require('body-parser');
-var userController = require('../controllers/auth/user');
+var userController = require('../controllers/auth/UserController');
 
 router.use(bodyParser.urlencoded({ extended: true }));
 
