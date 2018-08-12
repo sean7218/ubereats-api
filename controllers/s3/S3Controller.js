@@ -34,47 +34,68 @@ const listObjects = (bucket, prefix) => {
 /**
  * @description
  * upload image to S3 Bucket
- * @param filename String - the key for the S3 bucket
+ * @param key String - the key for the S3 bucket
  *
  * @example
- * uploadImage('filename: MISC.jpg');
+ * uploadImage('key: MISC.jpg');
  */
-const uploadImage = (bucket, fileName) => {
-    let dir = path.join(__dirname, '../../public/images', fileName);
+const uploadImage = (req, res)  => {
+    let bucket = req.body.bucket
+    let key = req.body.key;
+    let dir = path.join(__dirname, '../../public/images', key);
     let base64data = fs.readFileSync(dir);
 
     s3.putObject({
         Bucket: bucket,
-        Key: fileName,
+        Key: key,
         Body: base64data,
         ACL: 'public-read'
     }, function (err, output) {
         if (err) {
             console.log(err);
+            return res.send(err);
         } else {
             console.log(output);
+            return res.send(output);
         }
     });
 }
-const downloadImage = (bucket, key) => {
+
+const downloadImage = (req, res) => {
+    let bucket = req.body.bucket
+    let key = req.body.key;
     let dir = path.join(__dirname, '../../public/images', key);
     console.log(dir);
     s3.getObject({
         Bucket: bucket,
         Key: key
     }, function (err, data) {
-        if (err) console.log(err);
-        fs.writeFileSync(dir, data.Body, { encoding: "binary" });
+        if (err) {
+            console.log(err);
+            res.send(err);
+        } else {
+            fs.writeFileSync(dir, data.Body, { encoding: "binary" });
+            res.send("downloaded image");
+        }
     });
 }
 
 function getImageUrl(bucket, key) {
     return new Promise((resolve, reject) => {
         let params = { Bucket: bucket, Key: key };
-        s3.getSignedUrl('getObject', params, (err, url) => {
-            if (err) { reject(err); }
-            else { resolve(url.split("?")[0]); }
-        });
+        s3.getObject(params, (err, obj) => {
+            if (err || !obj) {
+                reject(err);
+            } else {
+                s3.getSignedUrl('getObject', params, (err, url) => {
+                    if (err) {
+                        reject(err);
+                    } else {
+                        resolve(url.split("?")[0]);
+                    }
+                }); //getSignedUrl
+            }
+        }) //getObject
     });
 }
 
