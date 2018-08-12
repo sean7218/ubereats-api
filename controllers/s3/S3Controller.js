@@ -1,5 +1,5 @@
 var AWS = require('aws-sdk');
-var config = require('../../config/config')["dev"];
+var config = require('../../config/config')[process.env.NODE_ENV];
 var S3Client = {}
 var fs = require('fs');
 var path = require('path');
@@ -16,9 +16,9 @@ s3.config.update({
 
 });
 
-const listObjects = (prefix) => {
+const listObjects = (bucket, prefix) => {
     s3.listObjects({
-        Bucket: 'stacker-s3-img',
+        Bucket: bucket,
         Delimiter: '',
         Prefix: prefix
     }, function (err, data) {
@@ -31,39 +31,6 @@ const listObjects = (prefix) => {
     });
 }
 
-const listBuckets = () => {
-    s3.listBuckets(function (err, data) {
-        if (err) {
-            console.log("Error", err);
-        } else {
-            console.log("Bucket List", data.Buckets);
-        }
-    });
-}
-
-const getObject = (bucket, key) => {
-    let bucketName = bucket || "stacker-s3-img"
-    let objectKey = key || "images/stacker.png"
-    s3.getObject({
-        Bucket: bucketName,
-        Key: objectKey,
-    }, function (err, obj) {
-        if (err) console.log(err);
-        console.log(obj)
-    });
-}
-
-const getObjectUrl = (bucket, key) => {
-    let params = { Bucket: bucket, Key: key };
-    let url = s3.getSignedUrl('getObject', params)
-    return url.split("?")[0];
-}
-
-const getObjectSignedUrl = (bucket, key) => {
-    let params = { Bucket: bucket, Key: key };
-    return s3.getSignedUrl('getObject', params);
-}
-
 /**
  * @description
  * upload image to S3 Bucket
@@ -72,12 +39,12 @@ const getObjectSignedUrl = (bucket, key) => {
  * @example
  * uploadImage('filename: MISC.jpg');
  */
-const uploadImage = (fileName) => {
+const uploadImage = (bucket, fileName) => {
     let dir = path.join(__dirname, '../../public/images', fileName);
     let base64data = fs.readFileSync(dir);
 
     s3.putObject({
-        Bucket: "stacker-s3-img",
+        Bucket: bucket,
         Key: fileName,
         Body: base64data,
         ACL: 'public-read'
@@ -113,10 +80,6 @@ function getImageUrl(bucket, key) {
 
 S3Client = {
     listObjects,
-    listBuckets,
-    getObject,
-    getObjectUrl,
-    getObjectSignedUrl,
     getImageUrl,
     uploadImage,
     downloadImage,
