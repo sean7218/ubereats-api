@@ -16,17 +16,21 @@ s3.config.update({
 
 });
 
-const listObjects = (bucket, prefix) => {
+const listObjects = (req, res) => {
+    let bucket = req.body.bucket;
+    let prefix = req.body.prefix;
     s3.listObjects({
         Bucket: bucket,
         Delimiter: '',
-        Prefix: prefix
+        Prefix: prefix,
     }, function (err, data) {
         console.log("listing objects");
         if (err) {
             console.log("Error on listing objects: " + err);
+            res.send(err);
         } else {
             console.log(data);
+            res.send(data);
         }
     });
 }

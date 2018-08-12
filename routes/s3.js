@@ -18,23 +18,7 @@ router.post('/getImageUrl', function(req, res) {
     });
 });
 
-router.post('/listObjects', function(req, res) {
-    let bucket = req.body.bucket;
-    let prefix = req.body.prefix;
-    let params = {
-        Bucket: bucket,
-        Delimiter: '',
-        Prefix: prefix
-    }
-    S3Controller.listObjects(params, (err, data) => {
-        if (err) {
-            res.send(err);
-        } else {
-            res.send(data);
-        }
-    });
-});
-
+router.post('/listObjects', S3Controller.listObjects);
 router.post('/uploadImage', S3Controller.uploadImage);
 router.post('/downloadImage', S3Controller.downloadImage);
 
