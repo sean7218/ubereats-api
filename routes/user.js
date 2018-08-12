@@ -2,8 +2,9 @@ var express = require('express');
 var router = express.Router();
 var models = require('../models');
 var bodyParser = require('body-parser');
+var userController = require('../controllers/auth/user');
 
-router.use(bodyParser.json());
+router.use(bodyParser.urlencoded({ extended: true }));
 
 router.get('/', function(req, res, next) {
   models.User.findAll().then(function(users){
@@ -39,5 +40,10 @@ router.delete('/:id', function(req, res){
         return res.send(`the user ${req.params.id} has been deleted`);
     });
 });
+
+router.post('/register', userController.register);
+router.post('/login', userController.login);
+router.post('/logout', userController.logout);
+router.get('/verify/me', userController.verifyToken, userController.verifyme);
 
 module.exports = router;
