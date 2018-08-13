@@ -7,6 +7,7 @@ var logger = require("morgan");
 var indexRouter = require("./routes/index");
 var userRouter = require("./routes/user");
 var s3Router = require("./routes/s3");
+var yelpRouter = require("./routes/yelp");
 var app = express();
 
 // view engine setup
@@ -22,6 +23,7 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use("/", indexRouter);
 app.use("/user", userRouter);
 app.use("/s3", s3Router);
+app.use("/yelp", yelpRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
