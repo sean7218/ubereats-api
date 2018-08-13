@@ -99,8 +99,8 @@
   `GET`
   
 *  **URL Params**
-
-    `NONE`
+ 
+  `NONE`
 
 * **Success Response:**
   
@@ -133,7 +133,46 @@
 
   * **Code:** 401 UNAUTHORIZED <br />
     **Content:** `{ error : "users can be listed" }`
+------------------------------------------------------------
+* **URL**
 
+  _https://api.zxsean.com/yelp_
+
+* **Method:**
+
+  `GET`
+  
+*  **URL Params**
+
+   `term=[string]`, `lat=[double]`, `long=[double]`, `x-access-token=[string]`
+
+* **Success Response:**
+  
+  * **Code:** 200 <br />
+    **Content:** 
+    ```json
+    [
+        {
+            "name": "Vero Pizza Napoletana",
+            "url": "https://s3-media4.fl.yelpcdn.com/bphoto/OjoO-z3WBwRzlHifvP0vcA/o.jpg",
+            "rating": 4,
+            "price": "$$",
+            "review_count": 156
+        },
+        {
+            "name": "Dewey's Pizza",
+            "url": "https://s3-media1.fl.yelpcdn.com/bphoto/iOboHiGvLgp24eOkVRyEiQ/o.jpg",
+            "rating": 4.5,
+            "price": "$$",
+            "review_count": 147
+        }
+    ]
+    ```
+ 
+* **Error Response:**
+
+  * **Code:** 401 UNAUTHORIZED <br />
+    **Content:** `{ error : "business can be listed" }`
 ------------------------------------------------------------
 # Continous Integration
 - The api is build on Bitrise and deployed to the dev server
