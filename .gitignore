@@ -76,6 +76,10 @@ typings/
 build/
 
 # config file
+config/config.js
 config/config_dev.js
 config/config_local.js
+
+# not uploading pics
+public/images/
 
