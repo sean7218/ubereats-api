@@ -4,6 +4,7 @@
 ![node version](https://badge.fury.io/js/node.svg)
 ![Follow me](https://img.shields.io/twitter/follow/sean7218.svg?style=social&label=Follow)
 ![Github Followers](https://img.shields.io/github/watchers/sean7218/ubereats-api.svg?style=social&label=Follow)
+![Test Coverage](https://img.shields.io/badge/test%20coverage-85%25-orange.svg)
 
 # Table of Contents
 1. [User](#User)
