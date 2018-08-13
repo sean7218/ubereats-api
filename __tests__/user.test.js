@@ -4,7 +4,7 @@ const request = require('supertest');
 
 jest.mock('../models');
 
-const initHugo = () => {
+const initApp = () => {
   const app = express();
   app.use('/user', userRouter);
   return app;
@@ -12,7 +12,7 @@ const initHugo = () => {
 
 describe('GET /user', () => {
   test('It should fetch all users', async () => {
-    const app = initHugo();
+    const app = initApp();
     const res = await request(app).get('/user');
     expect(res.body).toEqual({
       "createdAt": "2018-08-11",
