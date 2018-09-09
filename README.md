@@ -179,3 +179,4 @@
 - If you are contributing and want to build the dev server, please DM [sean7218](https://twitter.com/sean7218)
 - The api test needs to be written and test needs to be running every day trigger on the Bitrise
 
+### login terminated
