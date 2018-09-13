@@ -6,7 +6,7 @@ const verifyToken = require("../controllers/auth/token");
 
 router.get("/", verifyToken, function (req, res, next) {
   console.log(req);
-  const term = req.query.term || "pizza";
+  const term = req.query.term || "";
   const lat = req.query.lat || "37.786882";
   const long = req.query.long || "-122.399972";
   const aconfig = {
